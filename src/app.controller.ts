@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -43,6 +43,20 @@ export class AppController {
     return {
       CategoryId: categoryId,
       ProductId: productId,
+    };
+  }
+
+  //! obteniendo parametros tipo query con Nest
+  @Get('query')
+  getQuery(@Query() querys: any) {
+    return querys;
+  }
+
+  @Get('querys')
+  getQuerys(@Query('nombre') nombre: string, @Query('edad') edad: number) {
+    return {
+      nombre,
+      edad,
     };
   }
 }
