@@ -1,5 +1,13 @@
-import { Controller, Get, Query, Param, Post, Body } from '@nestjs/common';
-import { AnyMxRecord } from 'dns';
+import {
+  Controller,
+  Get,
+  Query,
+  Param,
+  Post,
+  Body,
+  Put,
+  Delete,
+} from '@nestjs/common';
 
 @Controller('products') // 👈 Route
 export class ProductsController {
@@ -25,5 +33,18 @@ export class ProductsController {
   @Post()
   create(@Body() body: any) {
     return body;
+  }
+
+  @Put(':id')
+  update(@Body() body: any, @Param('id') id: string) {
+    return {
+      id,
+      body,
+    };
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return { message: `delete element id ${id}` };
   }
 }
