@@ -1,4 +1,5 @@
-import { Controller, Get, Query, Param } from '@nestjs/common';
+import { Controller, Get, Query, Param, Post, Body } from '@nestjs/common';
+import { AnyMxRecord } from 'dns';
 
 @Controller('products') // 👈 Route
 export class ProductsController {
@@ -19,5 +20,10 @@ export class ProductsController {
   @Get(':productId')
   getProduct(@Param('productId') productId: string) {
     return `product ${productId}`;
+  }
+
+  @Post()
+  create(@Body() body: any) {
+    return body;
   }
 }
