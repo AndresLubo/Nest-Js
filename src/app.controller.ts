@@ -9,4 +9,16 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('nuevo')
+  nuevo(): object {
+    return {
+      message: 'Yo soy el endPoint nuevo',
+    };
+  }
+
+  @Get('/ruta')
+  ruta(): string {
+    return 'Esto es una ruta';
+  }
 }
