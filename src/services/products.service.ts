@@ -20,17 +20,41 @@ export class ProductsService {
   }
 
   findOne(id: number) {
-    return this.products.find((item) => item.id === id);
+    const product = this.products.find((item) => item.id === id);
+    if (!product)
+      return { error: 'No se ha encontrado el producto solicitado' };
+    return product;
   }
 
   create(payload: any) {
     this.counterId++;
     const newProduct = {
-      ID: this.counterId,
+      id: this.counterId,
       ...payload,
     };
 
     this.products.push(newProduct);
     return newProduct;
+  }
+
+  update(id: number, changes: any) {
+    const index = this.products.findIndex((item) => item.id === id);
+    if (index === -1) return { error: 'No se ha encontrado el producto' };
+
+    const updateProduct = {
+      ...this.products[index],
+      ...changes,
+    };
+
+    this.products[index] = updateProduct;
+    return updateProduct;
+  }
+
+  delete(id: number) {
+    const index = this.products.findIndex((item) => item.id === id);
+    if (index === -1) throw new Error('No se ha encontrado el producto');
+
+    this.products.splice(index, 1);
+    return { message: `Delete product id: ${id}` };
   }
 }
