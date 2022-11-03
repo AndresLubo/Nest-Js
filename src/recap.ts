@@ -1,18 +1,17 @@
-const myName = 'Andres';
-const myAge = 22;
-
-const suma = (a: number, b: number) => a + b;
-
-suma(20, 30);
+const myName = 'Nicolas';
+const myAge = 12;
+const suma = (a: number, b: number) => {
+  return a + b;
+};
+suma(12, 23);
 
 class Persona {
-  constructor(private age: number, private name: string) { } //! Ya no es necesario asignarlos directamente, podemos emplear este atajo para el constructor
+  constructor(private age: number, private name: string) {}
 
-  getSumary() {
-    return `Mi nombre es ${this.name} y tengo ${this.age} años`;
+  getSummary() {
+    return `my name is ${this.name}, ${this.age}`;
   }
 }
 
-const clase = new Persona(22, 'Andres');
-
-console.log(clase);
+const nicolas = new Persona(15, 'nicolas');
+nicolas.getSummary();

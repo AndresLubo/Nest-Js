@@ -8,6 +8,5 @@ import { ProductsModule } from './products/products.module';
   imports: [UsersModule, ProductsModule],
   controllers: [AppController],
   providers: [AppService],
-  exports: [],
 })
 export class AppModule {}
