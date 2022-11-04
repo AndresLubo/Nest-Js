@@ -6,9 +6,19 @@ import { ProductsModule } from './products/products.module';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { DatabseModule } from './databse/databse.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UsersModule, ProductsModule, HttpModule, DatabseModule],
+  imports: [
+    UsersModule,
+    ProductsModule,
+    HttpModule,
+    DatabseModule,
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [
     AppService,
