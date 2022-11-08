@@ -2,7 +2,6 @@ import { Module, Global } from '@nestjs/common';
 import config from './../config';
 import { ConfigType } from '@nestjs/config';
 import { Client } from 'pg';
-import { databaseProviders } from './database.providers';
 
 import { DataSource } from 'typeorm';
 
@@ -36,6 +35,10 @@ import { DataSource } from 'typeorm';
           password: configService.database.password,
           database: configService.database.name,
         });
+
+        dataSource.initialize();
+
+        return dataSource;
       },
       inject: [config.KEY],
     },

@@ -10,11 +10,6 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('tasks')
-  getTasks(): any {
-    return this.appService.getTasks();
-  }
-
   @Get('nuevo')
   newEndpoint() {
     return 'yo soy nuevo';

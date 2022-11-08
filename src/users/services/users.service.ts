@@ -70,6 +70,7 @@ export class UsersService {
   getOrderByUser(id: number): Order {
     const user = this.findOne(id);
     return {
+      id: 0,
       date: new Date(),
       user,
       products: this.productsService.findAll(),
