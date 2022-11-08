@@ -12,6 +12,7 @@ export class UsersService {
   constructor(
     private productsService: ProductsService,
     private config: ConfigService,
+    @Inject('TypeORM') private clientTypeORM: any,
     @Inject('pg') private clientPg: Client,
   ) {}
 

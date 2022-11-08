@@ -14,7 +14,7 @@ export class AppService {
     // private config: ConfigService,
     @Inject('TASKS') private tasks: any,
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
-    @Inject('pg') private clientPg: Client,
+    @Inject('TypeORM') private clientPg: Client,
   ) {}
   getHello(): string {
     // const apiKey = this.config.get<string>('API_KEY');
