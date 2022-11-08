@@ -3,7 +3,7 @@ import config from './../config';
 import { ConfigType } from '@nestjs/config';
 import { Client } from 'pg';
 
-import { DataSource } from 'typeorm';
+import { databaseProviders } from './database.providers';
 
 @Global()
 @Module({
@@ -24,26 +24,7 @@ import { DataSource } from 'typeorm';
       },
       inject: [config.KEY],
     },
-    {
-      provide: 'TypeORM',
-      useFactory: (configService: ConfigType<typeof config>) => {
-        const dataSource = new DataSource({
-          type: 'postgres',
-          host: configService.database.host,
-          port: configService.database.port,
-          username: configService.database.user,
-          password: configService.database.password,
-          database: configService.database.name,
-          synchronize: true,
-          entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        });
-
-        dataSource.initialize();
-
-        return dataSource;
-      },
-      inject: [config.KEY],
-    },
+    databaseProviders,
   ],
   exports: ['TypeORM', 'pg'],
 })

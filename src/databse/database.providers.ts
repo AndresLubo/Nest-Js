@@ -13,6 +13,10 @@ export const databaseProviders = {
       username: configService.database.user,
       password: configService.database.password,
       database: configService.database.name,
+      synchronize: false,
+      logging: true,
+      entities: ['src/**/*.entity{.ts,.js}'],
+      migrations: ['src/database/migrations/*.ts'],
     });
 
     dataSource.initialize();
