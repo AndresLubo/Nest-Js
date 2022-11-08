@@ -1,7 +1,6 @@
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { Client } from 'pg';
 
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -12,24 +11,6 @@ import { firstValueFrom } from 'rxjs';
 import { DatabseModule } from './databse/databse.module';
 import { environments } from './environments';
 import config from './config';
-
-const client = new Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'my_db',
-  password: 'root',
-  port: 5432,
-});
-
-client.connect();
-client.query('select * from tasks', (err, res) => {
-  if (err) {
-    console.error(err);
-    return false;
-  }
-
-  console.log(res.rows);
-});
 
 @Module({
   imports: [
