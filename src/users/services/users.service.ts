@@ -11,7 +11,6 @@ export class UsersService {
   constructor(
     private productsService: ProductsService,
     private config: ConfigService,
-    @Inject('API_KEY') private apiKey: string,
   ) {}
 
   private counterId = 1;
@@ -25,7 +24,6 @@ export class UsersService {
   ];
 
   findAll() {
-    console.log(this.apiKey);
     return this.users;
   }
 
