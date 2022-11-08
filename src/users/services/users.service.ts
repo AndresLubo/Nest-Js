@@ -16,79 +16,22 @@ export class UsersService {
     @Inject('pg') private clientPg: Client,
   ) {}
 
-  private counterId = 1;
-  private users: User[] = [
-    {
-      id: 1,
-      email: 'correo@mail.com',
-      password: '12345',
-      role: 'admin',
-    },
-  ];
 
-  findAll() {
-    return this.users;
-  }
+  // findAll() {}
 
-  findOne(id: number) {
-    const user = this.users.find((item) => item.id === id);
-    if (!user) {
-      throw new NotFoundException(`User #${id} not found`);
-    }
-    return user;
-  }
+  // findOne(id: number) {
+  //   // const user = this.users.find((item) => item.id === id);
+  //   // if (!user) {
+  //   //   throw new NotFoundException(`User #${id} not found`);
+  //   // }
+  //   // return user;
+  // }
 
-  create(data: CreateUserDto) {
-    this.counterId = this.counterId + 1;
-    const newUser = {
-      id: this.counterId,
-      ...data,
-    };
-    this.users.push(newUser);
-    return newUser;
-  }
+  // create(data: CreateUserDto) {}
 
-  update(id: number, changes: UpdateUserDto) {
-    const user = this.findOne(id);
-    const index = this.users.findIndex((item) => item.id === id);
-    this.users[index] = {
-      ...user,
-      ...changes,
-    };
-    return this.users[index];
-  }
+  // update(id: number, changes: UpdateUserDto) {}
 
-  remove(id: number) {
-    const index = this.users.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`User #${id} not found`);
-    }
-    this.users.splice(index, 1);
-    return true;
-  }
+  // remove(id: number) {}
 
-  getOrderByUser(id: number): Order {
-    const user = this.findOne(id);
-    return {
-      id: 0,
-      date: new Date(),
-      user,
-      products: this.productsService.findAll(),
-    };
-  }
-
-  getTasks(): any {
-    return new Promise((resolve, rejects) => {
-      this.clientPg.query('select * from tasks', (err, res) => {
-        if (err) {
-          rejects({
-            message: 'Ocurrió un error',
-            error: err,
-          });
-        }
-
-        resolve(res.rows);
-      });
-    });
-  }
+  // getOrderByUser(id: number): Order {}
 }

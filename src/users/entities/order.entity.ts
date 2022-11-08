@@ -10,9 +10,9 @@ export class Order {
   @Column({ type: 'date' })
   date: Date;
 
-  @Column()
-  user: User;
+  // @Column()
+  // user: User;
 
-  @Column()
-  products: Product[];
+  // @Column()
+  // products: Product[];
 }

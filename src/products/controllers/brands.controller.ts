@@ -18,17 +18,17 @@ export class BrandsController {
 
   @Get()
   findAll() {
-    return this.brandsService.findAll();
+    // return this.brandsService.findAll();
   }
 
   @Get(':id')
   get(@Param('id', ParseIntPipe) id: number) {
-    return this.brandsService.findOne(id);
+    // return this.brandsService.findOne(id);
   }
 
   @Post()
   create(@Body() payload: CreateBrandDto) {
-    return this.brandsService.create(payload);
+    // return this.brandsService.create(payload);
   }
 
   @Put(':id')
@@ -36,11 +36,11 @@ export class BrandsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateBrandDto,
   ) {
-    return this.brandsService.update(id, payload);
+    // return this.brandsService.update(id, payload);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.brandsService.remove(+id);
+    // return this.brandsService.remove(+id);
   }
 }

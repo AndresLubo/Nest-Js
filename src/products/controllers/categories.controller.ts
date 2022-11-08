@@ -18,17 +18,17 @@ export class CategoriesController {
 
   @Get()
   findAll() {
-    return this.categoriesService.findAll();
+    // return this.categoriesService.findAll();
   }
 
   @Get(':id')
   get(@Param('id', ParseIntPipe) id: number) {
-    return this.categoriesService.findOne(id);
+    // return this.categoriesService.findOne(id);
   }
 
   @Post()
   create(@Body() payload: CreateCategoryDto) {
-    return this.categoriesService.create(payload);
+    // return this.categoriesService.create(payload);
   }
 
   @Put(':id')
@@ -36,11 +36,11 @@ export class CategoriesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateCategoryDto,
   ) {
-    return this.categoriesService.update(id, payload);
+    // return this.categoriesService.update(id, payload);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.categoriesService.remove(+id);
+    // return this.categoriesService.remove(+id);
   }
 }

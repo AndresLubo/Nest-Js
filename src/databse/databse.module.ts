@@ -34,6 +34,8 @@ import { DataSource } from 'typeorm';
           username: configService.database.user,
           password: configService.database.password,
           database: configService.database.name,
+          synchronize: true,
+          entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         });
 
         dataSource.initialize();
