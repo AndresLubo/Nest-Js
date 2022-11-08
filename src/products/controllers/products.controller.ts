@@ -9,13 +9,10 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
-  Res,
-  // ParseIntPipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 
-import { Response } from 'express';
-import { ParseIntPipe } from '../../common/parse-int.pipe';
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
+import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
 
 import { ProductsService } from './../services/products.service';
 
@@ -29,43 +26,46 @@ export class ProductsController {
     @Query('offset') offset = 0,
     @Query('brand') brand: string,
   ) {
-    // return {
-    //   message: `products limit=> ${limit} offset=> ${offset} brand=> ${brand}`,
-    // };
     return await this.productsService.findAll();
-  }
-
-  @Get('filter')
-  getProductFilter() {
-    return `yo soy un filter`;
   }
 
   @Get(':productId')
   @HttpCode(HttpStatus.ACCEPTED)
   async getOne(@Param('productId', ParseIntPipe) productId: number) {
-    // response.status(200).send({
-    //   message: `product ${productId}`,
-    // });
-    // return this.productsService.findOne(productId);
     return await this.productsService.findOne(productId);
   }
 
   @Post()
-  create(@Body() payload: CreateProductDto) {
-    // return {
-    //   message: 'accion de crear',
-    //   payload,
-    // };
-    // return this.productsService.create(payload);
+  async create(@Body() payload: CreateProductDto) {
+    try {
+      return await this.productsService.create(payload);
+    } catch (error) {
+      return { message: 'Ocurrió un error al crear un producto', error };
+    }
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: UpdateProductDto) {
-    // return this.productsService.update(+id, payload);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateProductDto,
+  ) {
+    try {
+      return await this.productsService.update(id, payload);
+    } catch (error) {
+      return {
+        message: 'Ocurrió un error al actualizar el producto',
+        error: error.response,
+      };
+    }
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    // return this.productsService.remove(+id);
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    try {
+      await this.productsService.remove(id);
+      return { message: `Product id: ${id} delete` };
+    } catch (error) {
+      return { message: 'Ocurrió un error al eliminar un producto' };
+    }
   }
 }
