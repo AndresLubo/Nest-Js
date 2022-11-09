@@ -17,30 +17,65 @@ export class CustomerController {
   constructor(private customersService: CustomersService) {}
 
   @Get()
-  findAll() {
-    return this.customersService.findAll();
+  async findAll() {
+    try {
+      return await this.customersService.findAll();
+    } catch (error) {
+      return {
+        message: 'Error al mostrar todos los customers',
+        error: error.response,
+      };
+    }
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
-    return this.customersService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.customersService.findOne(id);
+    } catch (error) {
+      return {
+        message: `Ocurrio un error al mostrar el usuario ${id}`,
+        error: error.response,
+      };
+    }
   }
 
   @Post()
-  create(@Body() payload: CreateCustomerDto) {
-    return this.customersService.create(payload);
+  async create(@Body() payload: CreateCustomerDto) {
+    try {
+      return await this.customersService.create(payload);
+    } catch (error) {
+      return {
+        message: 'Ocurrió un error al crear el customer',
+        error: error.response,
+      };
+    }
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateCustomerDto,
   ) {
-    return this.customersService.update(id, payload);
+    try {
+      return await this.customersService.update(id, payload);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al actualizar al customer ${id}`,
+        error: error.response,
+      };
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.customersService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.customersService.remove(id);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al eliminar al customer ${id}`,
+        error: error.response,
+      };
+    }
   }
 }

@@ -17,18 +17,27 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  findAll() {
-    // return this.usersService.findAll();
+  async findAll() {
+    try {
+      return await this.usersService.findAll();
+    } catch (error) {
+      return {
+        message: 'Ocurrió un error al mostrar los usuarios',
+        error: error.response,
+      };
+    }
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
-    // return this.usersService.findOne(id);
-  }
-
-  @Get(':id/orders')
-  getOrders(@Param('id', ParseIntPipe) id: number) {
-    // return this.usersService.getOrderByUser(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.usersService.findOne(id);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al mostrar el usuario ${id}`,
+        error: error.response,
+      };
+    }
   }
 
   @Post()

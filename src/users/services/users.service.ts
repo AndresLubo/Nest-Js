@@ -1,37 +1,38 @@
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { User } from '../entities/user.entity';
-import { Order } from '../entities/order.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
-import { Client } from 'pg';
-
-import { ConfigService } from '@nestjs/config';
-import { ProductsService } from './../../products/services/products.service';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private productsService: ProductsService,
-    private config: ConfigService,
-    @Inject('TypeORM') private clientTypeORM: any,
-    @Inject('pg') private clientPg: Client,
+    @Inject('user_repository') private userRepository: Repository<User>,
   ) {}
 
+  async findAll() {
+    return await this.userRepository.find();
+  }
 
-  // findAll() {}
+  async findOne(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) throw new NotFoundException(`User id: ${id} not found`);
 
-  // findOne(id: number) {
-  //   // const user = this.users.find((item) => item.id === id);
-  //   // if (!user) {
-  //   //   throw new NotFoundException(`User #${id} not found`);
-  //   // }
-  //   // return user;
-  // }
+    return user;
+  }
 
-  // create(data: CreateUserDto) {}
+  async create(data: CreateUserDto) {
+    const newUser = this.userRepository.create(data);
+    return await this.userRepository.save(newUser);
+  }
 
-  // update(id: number, changes: UpdateUserDto) {}
+  async update(id: number, changes: UpdateUserDto) {
+    const user = await this.findOne(id);
+    this.userRepository.merge(user, changes);
+    return await this.userRepository.save(user);
+  }
 
-  // remove(id: number) {}
-
-  // getOrderByUser(id: number): Order {}
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    return this.userRepository.delete(id);
+  }
 }
