@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { firstValueFrom } from 'rxjs';
-import { DatabseModule } from './databse/databse.module';
+import { DatabseModule } from './database/database.module';
 import { environments } from './environments';
 import config from './config';
 

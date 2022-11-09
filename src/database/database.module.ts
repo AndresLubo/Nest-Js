@@ -1,9 +1,9 @@
 import { Module, Global } from '@nestjs/common';
-import config from './../config';
+import config from '../config';
 import { ConfigType } from '@nestjs/config';
 import { Client } from 'pg';
 
-import { databaseProviders } from './database.providers';
+import { dataSource } from './dataSource';
 
 @Global()
 @Module({
@@ -24,7 +24,7 @@ import { databaseProviders } from './database.providers';
       },
       inject: [config.KEY],
     },
-    databaseProviders,
+    dataSource,
   ],
   exports: ['TypeORM', 'pg'],
 })

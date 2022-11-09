@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm';
 
-import config from './../config';
+import config from '../config';
 import { ConfigType } from '@nestjs/config';
 
-export const databaseProviders = {
+export const dataSource = {
   provide: 'TypeORM',
   useFactory: (configService: ConfigType<typeof config>) => {
     const dataSource = new DataSource({
@@ -15,8 +15,9 @@ export const databaseProviders = {
       database: configService.database.name,
       synchronize: false,
       logging: true,
-      entities: ['src/**/*.entity{.ts,.js}'],
-      migrations: ['src/database/migrations/*.ts'],
+      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      migrations: [__dirname + '/migrations/*{.ts,.js}'],
+      migrationsTableName: 'migrations',
     });
 
     dataSource.initialize();
