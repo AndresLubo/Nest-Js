@@ -3,14 +3,19 @@ import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { Repository } from 'typeorm';
 
+import { CustomersService } from './customers.service';
+
 @Injectable()
 export class UsersService {
   constructor(
     @Inject('user_repository') private userRepository: Repository<User>,
+    private customerService: CustomersService,
   ) {}
 
   async findAll() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      relations: ['customer'],
+    });
   }
 
   async findOne(id: number) {
@@ -22,6 +27,10 @@ export class UsersService {
 
   async create(data: CreateUserDto) {
     const newUser = this.userRepository.create(data);
+    if (data.customerId) {
+      const customer = await this.customerService.findOne(data.customerId);
+      newUser.customer = customer;
+    }
     return await this.userRepository.save(newUser);
   }
 

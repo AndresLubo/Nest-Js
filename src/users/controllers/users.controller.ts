@@ -41,8 +41,15 @@ export class UsersController {
   }
 
   @Post()
-  create(@Body() payload: CreateUserDto) {
-    // return this.usersService.create(payload);
+  async create(@Body() payload: CreateUserDto) {
+    try {
+      return await this.usersService.create(payload);
+    } catch (error) {
+      return {
+        message: 'Ocurrió un error al crear el usuario',
+        error: error.response,
+      };
+    }
   }
 
   @Put(':id')
