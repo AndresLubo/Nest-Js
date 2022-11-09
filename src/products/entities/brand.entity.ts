@@ -1,4 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
+
+import { Product } from './product.entity';
 
 @Entity()
 export class Brand {
@@ -10,4 +19,14 @@ export class Brand {
 
   @Column({ type: 'varchar', length: 255 })
   image: string;
+
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  createAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  updateAt: Date;
+
+  //! relación con los productos
+  @OneToMany(() => Product, (product) => product.brand)
+  products: Product[];
 }

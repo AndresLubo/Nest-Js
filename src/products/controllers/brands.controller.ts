@@ -17,30 +17,65 @@ export class BrandsController {
   constructor(private brandsService: BrandsService) {}
 
   @Get()
-  findAll() {
-    // return this.brandsService.findAll();
+  async findAll() {
+    try {
+      return await this.brandsService.findAll();
+    } catch (error) {
+      return {
+        message: 'Ocurrió un error al mostrar las marcas',
+        error: error.response,
+      };
+    }
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
-    // return this.brandsService.findOne(id);
+  async get(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.brandsService.findOne(id);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al mostrar la marca ${id}`,
+        error: error.response,
+      };
+    }
   }
 
   @Post()
-  create(@Body() payload: CreateBrandDto) {
-    // return this.brandsService.create(payload);
+  async create(@Body() payload: CreateBrandDto) {
+    try {
+      return await this.brandsService.create(payload);
+    } catch (error) {
+      return {
+        message: 'Ocurrió un error al crear la marca',
+        error: error.response,
+      };
+    }
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateBrandDto,
   ) {
-    // return this.brandsService.update(id, payload);
+    try {
+      return await this.brandsService.update(id, payload);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al actualiza la marca ${id}`,
+        error: error.response,
+      };
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    // return this.brandsService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.brandsService.remove(id);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al eliminar la marca ${id}`,
+        error: error.response,
+      };
+    }
   }
 }
