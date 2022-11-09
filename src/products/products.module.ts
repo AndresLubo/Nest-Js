@@ -8,6 +8,7 @@ import { BrandsService } from './services/brands.service';
 import { CategoriesService } from './services/categories.service';
 import { productProviders } from './providers_entities/product.providers';
 import { brandProviders } from './providers_entities/brand.providers';
+import { categoryProviders } from './providers_entities/category.providers';
 
 @Module({
   controllers: [ProductsController, CategoriesController, BrandsController],
@@ -17,6 +18,7 @@ import { brandProviders } from './providers_entities/brand.providers';
     BrandsService,
     brandProviders,
     CategoriesService,
+    categoryProviders,
   ],
   exports: [ProductsService],
 })

@@ -17,30 +17,62 @@ export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
 
   @Get()
-  findAll() {
-    // return this.categoriesService.findAll();
+  async findAll() {
+    try {
+      return await this.categoriesService.findAll();
+    } catch (error) {
+      return {
+        message: 'Ocurrió un error al mostrar las categorias',
+        error: error.response,
+      };
+    }
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
-    // return this.categoriesService.findOne(id);
+  async get(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.categoriesService.findOne(id);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al mostrar la categoria ${id}`,
+        error: error.response,
+      };
+    }
   }
 
   @Post()
-  create(@Body() payload: CreateCategoryDto) {
-    // return this.categoriesService.create(payload);
+  async create(@Body() payload: CreateCategoryDto) {
+    try {
+      return await this.categoriesService.create(payload);
+    } catch (error) {
+      return { message: 'Error al crear la categoria', error: error.response };
+    }
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateCategoryDto,
   ) {
-    // return this.categoriesService.update(id, payload);
+    try {
+      return await this.categoriesService.update(id, payload);
+    } catch (error) {
+      return {
+        message: `Error al actualizar ña categoria ${id}`,
+        error: error.response,
+      };
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    // return this.categoriesService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    try {
+      return await this.categoriesService.remove(id);
+    } catch (error) {
+      return {
+        message: `Error al eliminar la categoria ${id}`,
+        error: error.response,
+      };
+    }
   }
 }
