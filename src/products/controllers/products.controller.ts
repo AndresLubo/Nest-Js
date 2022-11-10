@@ -12,7 +12,11 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
+import {
+  CreateProductDto,
+  FilterProductsDto,
+  UpdateProductDto,
+} from '../dtos/products.dto';
 
 import { ProductsService } from './../services/products.service';
 
@@ -21,12 +25,8 @@ export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
-  async getProducts(
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-    @Query('brand') brand: string,
-  ) {
-    return await this.productsService.findAll();
+  async getProducts(@Query() params: FilterProductsDto) {
+    return await this.productsService.findAll(params);
   }
 
   @Get(':productId')
