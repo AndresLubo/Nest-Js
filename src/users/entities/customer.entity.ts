@@ -11,7 +11,7 @@ import { Order } from './order.entity';
 
 import { User } from './user.entity';
 
-@Entity()
+@Entity({ name: 'customers' })
 export class Customer {
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,16 +19,24 @@ export class Customer {
   @Column({ type: 'varchar', length: 50 })
   name: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 50, name: 'last_name' })
   lastName: string;
 
   @Column({ type: 'varchar', length: 30 })
   phone: string;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'create_at',
+  })
   createAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'update_at',
+  })
   updateAt: Date;
 
   @OneToOne(() => User, (user) => user.customer, { nullable: true })

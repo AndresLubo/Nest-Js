@@ -9,7 +9,7 @@ import {
 
 import { Product } from './product.entity';
 
-@Entity()
+@Entity({ name: 'categories' })
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,10 +17,18 @@ export class Category {
   @Column({ type: 'varchar', length: 50, unique: true })
   name: string;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'create_at',
+  })
   createAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'update_at',
+  })
   updateAt: Date;
 
   @ManyToMany(() => Product, (products) => products.categories)

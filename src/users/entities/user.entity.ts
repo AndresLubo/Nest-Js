@@ -16,7 +16,7 @@ enum userRole {
   STANDAR = 'standar',
 }
 
-@Entity()
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -34,13 +34,21 @@ export class User {
   })
   role: string;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'create_at',
+  })
   createAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    name: 'update_at',
+  })
   updateAt: Date;
 
   @OneToOne(() => Customer, (customer) => customer.user, { nullable: true })
-  @JoinColumn()
+  @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 }
