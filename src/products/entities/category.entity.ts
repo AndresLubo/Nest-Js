@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany
+  ManyToMany,
 } from 'typeorm';
 
 import { Product } from './product.entity';
