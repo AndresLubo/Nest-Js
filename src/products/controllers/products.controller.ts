@@ -59,6 +59,21 @@ export class ProductsController {
     }
   }
 
+  @Put(':productId/category/:categoryId')
+  async addCategory(
+    @Param('productId', ParseIntPipe) productId: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+  ) {
+    try {
+      return await this.productsService.addCategory(productId, categoryId);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al agregar la categoría ${categoryId} al producto ${productId}`,
+        error: error.response,
+      };
+    }
+  }
+
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     try {
@@ -66,6 +81,21 @@ export class ProductsController {
       return { message: `Product id: ${id} delete` };
     } catch (error) {
       return { message: 'Ocurrió un error al eliminar un producto' };
+    }
+  }
+
+  @Delete(':productId/category/:categoryId')
+  async removeCategory(
+    @Param('productId', ParseIntPipe) productId: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+  ) {
+    try {
+      return await this.productsService.removeCategory(productId, categoryId);
+    } catch (error) {
+      return {
+        message: `Ocurrió un error al eliminar la categoría ${categoryId} del producto ${productId}`,
+        error: error.response,
+      };
     }
   }
 }

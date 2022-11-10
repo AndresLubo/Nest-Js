@@ -39,10 +39,35 @@ export class ProductsService {
     const brand = await this.brandRepository.findOneBy({ id: data.brandId });
     newProduct.brand = brand;
     const categories = await this.categoryRepository.findBy({
-      id: In([1, 2, 3]),
+      id: In(data.categoriesIds),
     });
     newProduct.categories = categories;
     return await this.productRepository.save(newProduct);
+  }
+
+  //! Manipulacion de arrays
+  async removeCategory(productId: number, categoryId: number) {
+    const product = await this.productRepository.findOne({
+      relations: ['categories'],
+      where: { id: productId },
+    });
+    product.categories = product.categories.filter(
+      (category) => category.id !== categoryId,
+    );
+    return await this.productRepository.save(product);
+  }
+
+  async addCategory(productId: number, categoryId: number) {
+    const product = await this.productRepository.findOne({
+      relations: ['categories'],
+      where: { id: productId },
+    });
+    const category = await this.categoryRepository.findOneBy({
+      id: categoryId,
+    });
+
+    product.categories.push(category);
+    return await this.productRepository.save(product);
   }
 
   async update(id: number, changes: UpdateProductDto) {
@@ -53,12 +78,15 @@ export class ProductsService {
       });
       product.brand = brand;
     }
+
+    if (changes.categoriesIds) {
+    }
     this.productRepository.merge(product, changes);
-    return this.productRepository.save(product);
+    return await this.productRepository.save(product);
   }
 
   async remove(id: number) {
     const product = await this.findOne(id);
-    return this.productRepository.delete(id);
+    return await this.productRepository.delete(id);
   }
 }
