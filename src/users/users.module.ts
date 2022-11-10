@@ -9,10 +9,19 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductsModule } from '../products/products.module';
 import { userProviders } from './providers_entities/user.providers';
 import { customerProviders } from './providers_entities/customer.providers';
+import { orderProviders } from './providers_entities/order.providers';
+import { orderItemProviders } from './providers_entities/order-item.providers';
 
 @Module({
   imports: [ProductsModule, ConfigModule],
   controllers: [CustomerController, UsersController],
-  providers: [CustomersService, customerProviders, UsersService, userProviders],
+  providers: [
+    CustomersService,
+    customerProviders,
+    UsersService,
+    userProviders,
+    orderProviders,
+    orderItemProviders,
+  ],
 })
 export class UsersModule {}
