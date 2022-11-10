@@ -6,7 +6,7 @@ import {
   FilterProductsDto,
   UpdateProductDto,
 } from './../dtos/products.dto';
-import { In, Repository } from 'typeorm';
+import { Between, FindOptionsWhere, In, Repository } from 'typeorm';
 
 import { Category } from '../entities/category.entity';
 import { Brand } from '../entities/brand.entity';
@@ -24,9 +24,16 @@ export class ProductsService {
 
   async findAll(params?: FilterProductsDto) {
     if (params) {
+      const where: FindOptionsWhere<Product> = {};
       const { limit, offset } = params;
+      const { maxPrice, minPrice } = params;
+      if (minPrice && maxPrice) {
+        where.price = Between(minPrice, maxPrice);
+      }
+
       return await this.productRepository.find({
         relations: ['brand'],
+        where,
         take: limit,
         skip: offset,
       });
