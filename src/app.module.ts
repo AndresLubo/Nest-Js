@@ -2,6 +2,10 @@ import { HttpModule, HttpService } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
+//! coneción con Mongo DB
+
+import { MongoClient } from 'mongodb';
+
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,6 +15,22 @@ import { firstValueFrom } from 'rxjs';
 import { DatabseModule } from './database/database.module';
 import { environments } from './environments';
 import config from './config';
+
+const uri = 'mongodb://localhost:27017/';
+
+const client = new MongoClient(uri);
+
+const run = async () => {
+  await client.connect();
+  const dataBase = client.db('platzi-store');
+  const tasksCollection = dataBase.collection('tasks');
+
+  const tasks = await tasksCollection.find().toArray();
+
+  console.log(tasks);
+};
+
+run();
 
 @Module({
   imports: [
