@@ -19,3 +19,13 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
       - '5050:80'
+
+  mongo:
+    image: 'mongo:4.4'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongo_data:/data/db
