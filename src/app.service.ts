@@ -3,16 +3,15 @@ import { Inject } from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
 import { ConfigType } from '@nestjs/config';
 import config from './config';
-
 import { Client } from 'pg';
-import { resolve } from 'path';
-import { rejects } from 'assert';
+import { Db } from 'mongodb';
 
 @Injectable()
 export class AppService {
   constructor(
     // private config: ConfigService,
-    @Inject('TASKS') private tasks: any,
+    // @Inject('TASKS') private tasks: any,
+    @Inject('mongo') private databaseMongo: Db,
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
     @Inject('TypeORM') private clientPg: Client,
   ) {}
@@ -21,7 +20,7 @@ export class AppService {
     // const databaseName = this.config.get('DATABASE_NAME');
 
     const apiKey = this.configService.apiKey;
-    const databaseName = this.configService.database.name;
+    const databaseName = this.configService.database.postgres.name;
 
     return `Hello World! ${apiKey} Database name: ${databaseName}`;
   }
@@ -39,5 +38,11 @@ export class AppService {
         resolve(res.rows);
       });
     });
+  }
+
+  async getTasksMongo() {
+    const tasksCollection = this.databaseMongo.collection('tasks');
+    const tasks = await tasksCollection.find().toArray();
+    return tasks;
   }
 }

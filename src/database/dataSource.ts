@@ -8,11 +8,11 @@ export const dataSource = {
   useFactory: (configService: ConfigType<typeof config>) => {
     const dataSource = new DataSource({
       type: 'postgres',
-      host: configService.database.host,
-      port: configService.database.port,
-      username: configService.database.user,
-      password: configService.database.password,
-      database: configService.database.name,
+      host: configService.database.postgres.host,
+      port: configService.database.postgres.port,
+      username: configService.database.postgres.user,
+      password: configService.database.postgres.password,
+      database: configService.database.postgres.name,
       synchronize: false,
       logging: true,
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],

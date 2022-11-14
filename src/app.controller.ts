@@ -10,6 +10,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('/tasks-mongo')
+  async getTasks(){
+    return await this.appService.getTasksMongo()
+  }
+
   @Get('nuevo')
   newEndpoint() {
     return 'yo soy nuevo';
