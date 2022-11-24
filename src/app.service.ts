@@ -25,7 +25,7 @@ export class AppService {
     return `Hello World! ${apiKey} Database name: ${databaseName}`;
   }
 
-  getTasks(): any {
+  getTasks() {
     return new Promise((resolve, rejects) => {
       this.clientPg.query('select * from tasks', (err, res) => {
         if (err) {

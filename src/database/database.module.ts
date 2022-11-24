@@ -31,7 +31,10 @@ import { dataSource } from './dataSource';
     {
       provide: 'mongo',
       useFactory: async (configService: ConfigType<typeof config>) => {
-        const client = new MongoClient(configService.database.mongo.uri);
+        const client = new MongoClient(configService.database.mongo.uri, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        });
         await client.connect();
 
         const database = client.db(configService.database.mongo.name);

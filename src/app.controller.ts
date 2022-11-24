@@ -11,8 +11,8 @@ export class AppController {
   }
 
   @Get('/tasks-mongo')
-  async getTasks(){
-    return await this.appService.getTasksMongo()
+  async getTasks() {
+    return await this.appService.getTasksMongo();
   }
 
   @Get('nuevo')
