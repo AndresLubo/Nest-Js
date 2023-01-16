@@ -5,11 +5,25 @@ import { Client } from 'pg';
 
 //! coneción con Mongo DB
 import { MongoClient } from 'mongodb';
+import { MongooseModule } from '@nestjs/mongoose';
 
 import { dataSource } from './dataSource';
 
 @Global()
 @Module({
+  imports: [
+    MongooseModule.forRootAsync({
+      useFactory: (configService: ConfigType<typeof config>) => {
+        const retorno = {
+          uri: configService.database.mongo.uri,
+          dbName: configService.database.mongo.name,
+        };
+
+        return retorno;
+      },
+      inject: [config.KEY],
+    }),
+  ],
   providers: [
     {
       provide: 'pg',
@@ -43,6 +57,6 @@ import { dataSource } from './dataSource';
       inject: [config.KEY],
     },
   ],
-  exports: ['TypeORM', 'pg', 'mongo'],
+  exports: ['TypeORM', 'pg', 'mongo', MongooseModule],
 })
 export class DatabseModule {}

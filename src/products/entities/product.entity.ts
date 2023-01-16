@@ -10,6 +10,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 
+//! Usando Mongoose
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
 
@@ -60,3 +64,25 @@ export class Product {
   })
   categories: Category[];
 }
+
+@Schema()
+export class Product2 extends Document {
+  @Prop({ index: true })
+  name: string;
+
+  @Prop()
+  description: string;
+
+  @Prop({ type: Number })
+  price: number;
+
+  @Prop({ type: Number })
+  stock: number;
+
+  @Prop()
+  image: string;
+}
+
+export const ProductSchema2 = SchemaFactory.createForClass(Product2);
+
+ProductSchema2.index({ price: 1, stock: -1 });

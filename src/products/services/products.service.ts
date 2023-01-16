@@ -1,5 +1,10 @@
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 
+//! Implementano mongoose
+import { InjectModel } from '@nestjs/mongoose';
+import { FilterQuery, Model } from 'mongoose';
+import { Product2 } from './../entities/product.entity';
+
 import { Product } from './../entities/product.entity';
 import {
   CreateProductDto,
@@ -20,6 +25,7 @@ export class ProductsService {
     private brandRepository: Repository<Brand>,
     @Inject('category_repository')
     private categoryRepository: Repository<Category>,
+    @InjectModel(Product2.name) private productModel: Model<Product2>,
   ) {}
 
   async findAll(params?: FilterProductsDto) {
@@ -105,7 +111,42 @@ export class ProductsService {
   }
 
   async remove(id: number) {
-    const product = await this.findOne(id);
+    await this.findOne(id);
     return await this.productRepository.delete(id);
+  }
+
+  //! Métodos con conexión a mongoDB
+  findAllMongo(params?: FilterProductsDto) {
+    if (params) {
+      const filters: FilterQuery<Product> = {};
+
+      const { limit, offset } = params;
+      const { minPrice, maxPrice } = params;
+      if (minPrice && maxPrice) {
+        filters.price = { $gte: minPrice, $ltg: maxPrice };
+      }
+
+      return this.productModel.find(filters).skip(offset).limit(limit).exec();
+    }
+    return this.productModel.find().exec();
+  }
+
+  findOneMongo(id: string) {
+    return this.productModel.findById(id).exec();
+  }
+
+  createProductMongo(data: CreateProductDto) {
+    const newProduct = new this.productModel(data);
+    return newProduct.save();
+  }
+
+  updateProductMongo(id: string, changes: UpdateProductDto) {
+    return this.productModel
+      .findByIdAndUpdate(id, { $set: changes }, { new: true })
+      .exec();
+  }
+
+  deleteProductMongo(id: string) {
+    return this.productModel.findByIdAndDelete(id);
   }
 }
