@@ -10,10 +10,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-//! Usando Mongoose
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
 
@@ -65,6 +61,12 @@ export class Product {
   categories: Category[];
 }
 
+//! Usando Mongoose
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
+
+import { Brand2 } from './brand.entity';
+
 @Schema()
 export class Product2 extends Document {
   @Prop({ index: true })
@@ -81,6 +83,17 @@ export class Product2 extends Document {
 
   @Prop()
   image: string;
+
+  @Prop(
+    raw({
+      name: { type: String },
+      image: { type: String },
+    }),
+  )
+  category: Record<string, any>;
+
+  @Prop({ type: Types.ObjectId, ref: Brand2.name })
+  brand: Brand2 | Types.ObjectId;
 }
 
 export const ProductSchema2 = SchemaFactory.createForClass(Product2);

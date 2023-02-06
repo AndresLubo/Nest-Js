@@ -14,7 +14,7 @@ export const dataSource = {
       password: configService.database.postgres.password,
       database: configService.database.postgres.name,
       synchronize: false,
-      logging: true,
+      logging: false,
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       migrations: [__dirname + '/migrations/*{.ts,.js}'],
       migrationsTableName: 'migrations',

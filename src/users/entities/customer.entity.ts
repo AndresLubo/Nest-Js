@@ -45,3 +45,24 @@ export class Customer {
   @OneToMany(() => Order, (order) => order.customer)
   orders: Order[];
 }
+
+import { Document, Types } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Skills, SkillsSchema } from './skills.entity';
+
+@Schema()
+export class Customer2 extends Document {
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true })
+  lastName: string;
+
+  @Prop()
+  phone: string;
+
+  @Prop({ type: [SkillsSchema] })
+  skills: Types.Array<Skills>;
+}
+
+export const CustomerSchema2 = SchemaFactory.createForClass(Customer2);

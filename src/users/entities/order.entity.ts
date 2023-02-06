@@ -36,3 +36,21 @@ export class Order {
   @OneToMany(() => OrderItem, (item) => item.order)
   items: OrderItem[];
 }
+
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Types } from 'mongoose';
+import { Product2 } from 'src/products/entities/product.entity';
+
+@Schema()
+export class Order2 extends Document {
+  @Prop({ type: Date })
+  date: Date;
+
+  @Prop({ type: Types.ObjectId, ref: Customer.name, required: true })
+  customer: Customer | Types.ObjectId;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: Product2.name }] })
+  products: Types.Array<Product2>;
+}
+
+export const OrderSchema = SchemaFactory.createForClass(Order2);

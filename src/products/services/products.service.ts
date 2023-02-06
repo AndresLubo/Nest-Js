@@ -106,6 +106,7 @@ export class ProductsService {
 
     if (changes.categoriesIds) {
     }
+
     this.productRepository.merge(product, changes);
     return await this.productRepository.save(product);
   }
@@ -123,12 +124,12 @@ export class ProductsService {
       const { limit, offset } = params;
       const { minPrice, maxPrice } = params;
       if (minPrice && maxPrice) {
-        filters.price = { $gte: minPrice, $ltg: maxPrice };
+        filters.price = { $gte: minPrice, $lte: maxPrice };
       }
 
       return this.productModel.find(filters).skip(offset).limit(limit).exec();
     }
-    return this.productModel.find().exec();
+    return this.productModel.find().populate('brand').exec();
   }
 
   findOneMongo(id: string) {

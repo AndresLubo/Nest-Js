@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import 'dotenv/config';
 
-console.log(__dirname);
+// console.log(__dirname);
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -11,7 +11,7 @@ export const dataSource = new DataSource({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   synchronize: false,
-  logging: true,
+  logging: false,
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/*{.ts,.js}'],
 });
