@@ -10,6 +10,7 @@ import { ProductsModule } from './products/products.module';
 import { firstValueFrom } from 'rxjs';
 import { DatabseModule } from './database/database.module';
 import { environments } from './environments';
+import { AuthModule } from './auth/auth.module';
 import config from './config';
 
 @Module({
@@ -23,7 +24,7 @@ import config from './config';
       load: [config],
       isGlobal: true,
       validationSchema: Joi.object({
-        API_KEY: Joi.number().required(),
+        API_KEY: Joi.string().required(),
         POSTGRES_DATABASE_NAME: Joi.string().required(),
         POSTGRES_DATABASE_PORT: Joi.number().required(),
         POSTGRES_DATABASE_HOST: Joi.string().required(),
@@ -33,6 +34,7 @@ import config from './config';
         MONGO_DATABASE_NAME: Joi.string().required(),
       }),
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
